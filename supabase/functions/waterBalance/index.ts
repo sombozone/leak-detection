@@ -112,11 +112,6 @@ serve(async (req: Request) => {
     const supabaseUrl = "http://10.38.245.59:8000"//Deno.env.get('SUPABASE_URL')
     const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')
 
-    // 打印环境变量（注意：生产环境中应该隐藏敏感信息）
-    console.log('环境变量检查:');
-    console.log('SUPABASE_URL:', supabaseUrl ? `${supabaseUrl.substring(0, 20)}...` : '未设置');
-    console.log('SUPABASE_ANON_KEY:', supabaseAnonKey ? `${supabaseAnonKey.substring(0, 10)}...` : '未设置');
-
     if (!supabaseUrl || !supabaseAnonKey) {
       throw new Error('Missing Supabase environment variables')
     }
@@ -190,12 +185,8 @@ serve(async (req: Request) => {
       };
     }) || []
 
-    console.log('转换后的数据项数:', items.length);
-
     // 构建树形结构
     const treeData = buildTree(items)
-
-    console.log('构建的树形结构根节点数:', treeData.length);
 
     const response: WaterBalanceResponse = {
       data: treeData,

@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS leak_detection.mnf_daily_record (
     id                  UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     
     -- 业务标识字段
-    district_id          BIGINT REFERENCES leak_detection.district(id) NOT NULL,  -- 分区ID
+    district_id          BIGINT  NOT NULL,  -- 分区ID，引用漏损分区管理表
+    district_pid         BIGINT  ,          -- 父分区ID，引用漏损分区管理表
     district_name        TEXT NOT NULL,                  -- 分区名称  
     record_date         DATE NOT NULL,                  -- 记录日期
     
@@ -48,6 +49,7 @@ CREATE TABLE IF NOT EXISTS leak_detection.mnf_daily_record (
 
 -- 创建索引
 CREATE INDEX IF NOT EXISTS idx_mnf_daily_record_district_id ON leak_detection.mnf_daily_record(district_id);
+CREATE INDEX IF NOT EXISTS idx_mnf_daily_record_district_pid ON leak_detection.mnf_daily_record(district_pid);
 CREATE INDEX IF NOT EXISTS idx_mnf_daily_record_record_date ON leak_detection.mnf_daily_record(record_date);
 CREATE INDEX IF NOT EXISTS idx_mnf_daily_record_district_date ON leak_detection.mnf_daily_record(district_id, record_date);
 
